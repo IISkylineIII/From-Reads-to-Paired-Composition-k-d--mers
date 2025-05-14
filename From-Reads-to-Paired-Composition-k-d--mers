@@ -1,0 +1,26 @@
+def StringSpelledByGappedPatterns(k, d, gapped_patterns):
+    # Split the gapped patterns into initial and terminal k-mers
+    first_patterns, second_patterns = zip(*[pattern.split('|') for pattern in gapped_patterns])
+
+    prefix_string = StringSpelledByPatterns(first_patterns)
+    suffix_string = StringSpelledByPatterns(second_patterns)
+
+    # Concatenate strings to form the final Text
+    text = prefix_string + suffix_string[-(k+d):]
+
+    return text
+
+def StringSpelledByPatterns(patterns):
+    k = len(patterns[0])
+    text = patterns[0]
+    for pattern in patterns[1:]:
+        text += pattern[-1]
+
+    return text
+
+k = 3
+d = 1
+gapped_patterns = ["AAT|CAT", "ATG|ATG", "ATG|CAT", "CAT|GAT", "CCA|GGG", "GCC|GGT", "GGG|GTT", "TAA|TGC", "TGC|TGG", "TGG|TGT"]
+
+result = StringSpelledByGappedPatterns(k, d, gapped_patterns)
+print(result)
